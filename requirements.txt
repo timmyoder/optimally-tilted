@@ -1,0 +1,16 @@
+# Core scientific computing
+numpy
+pandas
+scipy
+
+# Solar modeling
+pvlib
+
+# Data visualization
+matplotlib
+plotly
+
+# Web app framework
+streamlit
+streamlit-folium
+
