@@ -2,6 +2,9 @@
 
 A physics-based solar panel tilt angle optimizer that uses clear-sky modeling to determine optimal panel angles for maximum energy production.
 
+### Live App: [https://optimally-tilted-solar.streamlit.app/]()
+
+
 > ⚠️ **Disclaimer**: This whole thing was vibe coded. Don't judge me. While functional and based on solid solar engineering principles, use results as guidance rather than professional engineering analysis. Always consult qualified solar engineers for actual installations.
 
 ## Features
