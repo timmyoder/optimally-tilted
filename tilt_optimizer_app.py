@@ -297,6 +297,34 @@ def create_pv_diagram(tilt_angle, sun_altitude, array_width_m=16.76, array_heigh
 
 st.title("☀️ Solar Panel Tilt Optimizer")
 
+st.markdown("**Find the optimal tilt angle for your solar panels based on physics-based energy modeling.**")
+
+# About section
+with st.expander("ℹ️ About This Tool", expanded=False):
+    st.markdown("""
+    ### What This Does
+    This tool calculates the optimal solar panel tilt angle that maximizes energy production over your chosen time period. 
+    It uses physics-based modeling with clear-sky irradiance, temperature effects, and professional solar engineering algorithms (pvlib-python).
+    
+    ### How to Use
+    1. **Select Date**: Choose your starting date in the sidebar (optimizes for the following day forward)
+    2. **Adjust Settings**: Customize location, system size, and other parameters in the sidebar (or use defaults)
+    3. **Calculate**: Click "Calculate Optimal Tilt" to see results for 1 day, 14 days, and 30 days
+    4. **Explore**: Check out the different tabs for visualizations and analysis
+    
+    ### Understanding Results
+    - **Selected Date**: Best tilt for just the next day (captures short-term sun position)
+    - **Next 14 Days**: Optimal angle averaged over 2 weeks (good for frequent adjustments)
+    - **Next 30 Days**: Best monthly average (practical for manual tracking systems)
+    
+    ### Important Disclaimer
+    ⚠️ This whole thing was vibe coded. While it uses solid solar engineering principles and validated libraries, 
+    treat results as educational guidance rather than professional engineering analysis. Always consult qualified 
+    solar engineers for actual installations.
+    """)
+
+st.markdown("---")
+
 # Sidebar for inputs
 with st.sidebar:
     st.header("� Analysis Settings")
@@ -435,13 +463,6 @@ with st.sidebar:
     - 30 Days: Next month
     """)
 
-# Display current configuration
-st.markdown(f"""
-**Location:** {latitude}°N, {abs(longitude)}°W  
-**System Capacity:** {system_capacity_kw:.2f} kWp  
-**Configuration:** {mounting.title()} mounting, {module_type.replace('_', '/')} modules, {albedo} albedo
-""")
-
 # Main calculation
 if calculate_button or 'results' not in st.session_state:
     with st.spinner("Calculating optimal tilt angles..."):
@@ -545,13 +566,16 @@ if 'results' in st.session_state:
     ])
     
     with tab_overview:
+        # Show configuration used
+        st.info(f"📍 **Configuration**: {latitude}°N, {abs(longitude)}°W | {system_capacity_kw:.2f} kWp system | {mounting.title()} mounting | {albedo} albedo")
+        
         # Create three columns for the metrics
         col1, col2, col3 = st.columns(3)
         
         with col1:
             st.markdown("### 📅 Selected Date")
             st.markdown(f"**{r['start_date'].strftime('%B %d, %Y')}**")
-            st.metric("Optimal Tilt", f"{r['tilt_day1']:.1f}°", 
+            st.metric("Optimal Tilt", f"{r['tilt_day1']:.1f}°",
                      help="Best tilt angle for this single day")
             st.metric("Est. Production", f"{r['energy_day1']:,.1f} kWh",
                      help="Clear sky DC energy production")
